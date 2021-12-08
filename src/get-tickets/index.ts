@@ -12,11 +12,7 @@ async function main() {
   });
 
   const tickets = commits.data
-    .map((data) => {
-        console.log(data.commit.message.match(ticketRegExp));
-        console.log(data.commit.message.match(ticketRegExp)?.[1]);
-        return data.commit.message.match(ticketRegExp)?.[1];
-    })
+    .map((data) => data.commit.message.match(ticketRegExp)?.[0])
     .filter(Boolean)
     .join(",");
 
