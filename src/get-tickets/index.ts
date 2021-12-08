@@ -11,7 +11,7 @@ async function main() {
   );
 
   const tickets = commits.stdout.trim().split('\n')
-    .map((commit) => commit.match(ticketRegExp)?.[0])
+    .flatMap((commit) => commit.match(ticketRegExp))
     .filter(Boolean)
     .join(",");
 
