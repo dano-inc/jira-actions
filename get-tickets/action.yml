@@ -1,5 +1,5 @@
 inputs:
-  github-token:
+  repo-token:
     required: true
 runs:
   using: 'node16'
