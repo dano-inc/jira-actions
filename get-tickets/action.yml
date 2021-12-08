@@ -1,3 +1,6 @@
+inputs:
+  github-token:
+    required: true
 runs:
   using: 'node16'
   main: 'index.js'
