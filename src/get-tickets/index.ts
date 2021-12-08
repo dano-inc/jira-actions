@@ -1,18 +1,17 @@
-import * as github from "@actions/github";
 import * as core from "@actions/core";
+import { $ } from 'zx';
+
+$.verbose = false;
 
 const ticketRegExp = /([A-Z0-9]+-(?!0)\d+)/g;
 
 async function main() {
-  const repoToken = core.getInput("repo-token");
+  const commits =await $`git log --format=%s HEAD~1..HEAD`.pipe(
+    $`grep -v '^Merge'`
+  );
 
-  const commits = await github.getOctokit(repoToken).rest.repos.listCommits({
-    owner: github.context.payload.repository!.owner.login,
-    repo: github.context.payload.repository!.name,
-  });
-
-  const tickets = commits.data
-    .map((data) => data.commit.message.match(ticketRegExp)?.[0])
+  const tickets = commits.stdout.trim().split('\n')
+    .map((commit) => commit.match(ticketRegExp)?.[0])
     .filter(Boolean)
     .join(",");
 
