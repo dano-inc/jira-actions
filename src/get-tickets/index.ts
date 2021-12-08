@@ -1,6 +1,8 @@
 import * as github from "@actions/github";
 import * as core from "@actions/core";
 
+const ticketRegExp = /([A-Z0-9]+-(?!0)\d+)/g;
+
 async function main() {
   const repoToken = core.getInput("repo-token");
 
@@ -9,9 +11,14 @@ async function main() {
     repo: github.context.payload.repository!.name,
   });
 
-  commits.data.forEach((commit) => {
-    console.log(commit.commit.message);
-  });
+  const tickets = commits.data
+    .map((data) => data.commit.message.match(ticketRegExp)?.[1])
+    .filter(Boolean)
+    .join(",");
+
+  core.setOutput("tickets", tickets);
+
+  console.log("Result:", tickets);
 }
 
 main();
