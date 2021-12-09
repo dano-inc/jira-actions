@@ -1,23 +1,33 @@
 import * as core from "@actions/core";
-import { $ } from 'zx';
+import { $ } from "zx";
 
 $.verbose = false;
 
 const ticketRegExp = /([A-Z0-9]+-(?!0)\d+)/g;
 
 async function main() {
-  const commits =await $`git log --format="%s %b" HEAD~1..HEAD`.pipe(
+  const commits = await $`git log --format="%s %b" HEAD~1..HEAD`.pipe(
     $`grep -v '^Merge'`
   );
 
-  const tickets = commits.stdout.trim().split('\n')
+  const tickets = commits.stdout
+    .trim()
+    .split("\n")
     .flatMap((commit) => commit.match(ticketRegExp))
-    .filter(Boolean)
-    .join(",");
+    .filter(Boolean);
 
-  core.setOutput("tickets", tickets);
+  const projects = tickets.reduce((acc, ticket) => {
+    const project = ticket!.split("-")[0];
 
-  console.log("Result:", tickets);
+    if (!acc.includes(project)) {
+      acc.push(project);
+    }
+
+    return acc;
+  }, [] as string[]);
+
+  core.setOutput("tickets", tickets.join(","));
+  core.setOutput("projects", projects.join(","));
 }
 
 main();
