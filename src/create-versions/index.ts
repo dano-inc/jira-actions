@@ -18,6 +18,7 @@ const getProjectVersions = async (projectId: string) => {
     `/rest/api/2/project/${projectId}/versions`,
     jiraHostname
   ).toString();
+  console.log({ url });
 
   return await got.get(url, { username, password }).json<Version[]>();
 };
@@ -52,6 +53,7 @@ async function main() {
 
   const result = await Promise.all(
     projectsAsString.split(",").map(async (project) => {
+      console.log({ project });
       const versions = await getProjectVersions(project);
       const version =
         findVersionByName(versions, versionName) ||
