@@ -5,10 +5,10 @@ inputs:
     required: true
   jira-password:
     required: true
-  projects:
-    required: true
-  suffix:
+  tickets:
     required: false
+  version-result:
+    required: true
 runs:
   using: 'node16'
   main: 'index.js'
