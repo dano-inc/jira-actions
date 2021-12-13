@@ -1,0 +1,14 @@
+inputs:
+  jira-hostname:
+    required: true
+  jira-username:
+    required: true
+  jira-password:
+    required: true
+  projects:
+    required: true
+  suffix:
+    required: false
+runs:
+  using: 'node16'
+  main: 'index.js'
