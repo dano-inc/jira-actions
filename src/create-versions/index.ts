@@ -28,6 +28,8 @@ const createVersion = async (projectId: string, name: string) => {
 
   return got
     .post(url, {
+      username,
+      password,
       json: {
         name,
         project: projectId,
