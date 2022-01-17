@@ -1,5 +1,5 @@
 import * as core from "@actions/core";
-import got from "got";
+import got, { HTTPError } from "got";
 
 interface VersionResult {
   project: string;
@@ -47,4 +47,10 @@ async function main() {
   }
 }
 
-main();
+main().catch(e => {
+  if (e instanceof HTTPError) {
+    console.error(e.message);
+    console.error(e.request.options.headers);
+    console.error(e.response.body);
+  }
+});
