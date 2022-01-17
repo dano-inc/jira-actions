@@ -19,7 +19,7 @@ async function main() {
     core.getInput("version-result")
   ) as VersionResult[];
 
-  await Promise.all(
+  await Promise.allSettled(
     versionResult.flatMap(({ project, version }) => {
       const affectedTickets = tickets.filter((t) =>
         t.match(new RegExp(`^${project}-`))
@@ -51,6 +51,7 @@ main().catch(e => {
   if (e instanceof HTTPError) {
     console.error(e.message);
     console.error(e.request.options.headers);
+    console.error(e.request.options.url);
     console.error(e.response.body);
   }
 });
