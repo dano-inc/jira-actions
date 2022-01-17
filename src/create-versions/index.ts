@@ -23,7 +23,7 @@ const getProjectVersions = async (projectId: string) => {
   return await got.get(url, { username, password }).json<Version[]>();
 };
 
-const createVersion = async (projectId: string, name: string) => {
+const createVersion = async (projectId: string, name: string, released: boolean) => {
   const url = new URL("/rest/api/2/version", jiraHostname).toString();
 
   return got
@@ -33,7 +33,7 @@ const createVersion = async (projectId: string, name: string) => {
       json: {
         name,
         project: projectId,
-        released: true,
+        released,
       },
     })
     .json<Version>();
@@ -61,7 +61,7 @@ async function main() {
       const versions = await getProjectVersions(project);
       const version =
         findVersionByName(versions, versionName) ||
-        (await createVersion(project, versionName));
+        (await createVersion(project, versionName, core.getBooleanInput('version-released')));
 
       return { project, version };
     })

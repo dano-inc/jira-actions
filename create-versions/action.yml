@@ -9,6 +9,8 @@ inputs:
     required: true
   version-name:
     required: false
+  version-released:
+    required: false
   suffix:
     required: false
 runs:
