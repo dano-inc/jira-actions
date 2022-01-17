@@ -6,7 +6,8 @@ $.verbose = false;
 const ticketRegExp = /([A-Z0-9]+-(?!0)\d+)/g;
 
 async function main() {
-  const commits = await $`git log --format="%s %b" HEAD~1..HEAD`.pipe(
+  const from = core.getInput('from-revision');
+  const commits = await $`git log --format="%s %b" ${from}..HEAD`.pipe(
     $`grep -v '^Merge'`
   );
 
