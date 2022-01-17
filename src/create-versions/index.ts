@@ -51,7 +51,9 @@ async function main() {
   const versionSuffix = core.getInput("suffix");
 
   const now = dayjs().format("YYYY.MM.DD");
-  const versionName = versionSuffix ? `v${now} - ${versionSuffix}` : `v${now}`;
+  const versionName =
+    core.getInput("version-name") ||
+    (versionSuffix ? `v${now} - ${versionSuffix}` : `v${now}`);
 
   const result = await Promise.all(
     projectsAsString.split(",").map(async (project) => {

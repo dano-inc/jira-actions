@@ -7,6 +7,8 @@ inputs:
     required: true
   projects:
     required: true
+  version-name:
+    required: false
   suffix:
     required: false
 runs:
