@@ -4,63 +4,15 @@ import dayjs from "dayjs";
 
 process.env.TZ = "Asia/Seoul";
 
-let jiraHostname: string;
-let username: string;
-let password: string;
-
 interface Version {
   id: string;
   name: string;
 }
 
-const getProjectVersions = async (projectId: string) => {
-console.log({
-  tjiraHostname: typeof jiraHostname,
-  tpassword: typeof password,
-  tusername : typeof username,
-})
-console.log(JSON.stringify({ jiraHostname, username, password }));
-
-  const url = new URL(
-    `/rest/api/2/project/${projectId}/versions`,
-    jiraHostname
-  ).toString();
-
-  return got
-    .get(url, {
-      username,
-      password,
-    })
-    .json<Version[]>();
-};
-
-const createVersion = async (
-  projectId: string,
-  name: string,
-  released: boolean
-) => {
-  const url = new URL("/rest/api/2/version", jiraHostname).toString();
-
-  return got
-    .post(url, {
-      username,
-      password,
-      json: {
-        name,
-        project: projectId,
-        released,
-      },
-    })
-    .json<Version>();
-};
-
-const findVersionByName = (versions: Version[], name: string) =>
-  versions.find((v) => v.name === name);
-
 async function main() {
-  jiraHostname = core.getInput("jira-hostname");
-  username = core.getInput("jira-username");
-  password = core.getInput("jira-password");
+  const jiraHostname = core.getInput("jira-hostname");
+  const username = core.getInput("jira-username");
+  const password = core.getInput("jira-password");
 
   const projectsAsString = core.getInput("projects");
   const versionSuffix = core.getInput("suffix");
@@ -87,6 +39,44 @@ async function main() {
   );
 
   core.setOutput("result", result);
+
+  async function getProjectVersions(projectId: string) {
+    const url = new URL(
+      `/rest/api/2/project/${projectId}/versions`,
+      jiraHostname
+    ).toString();
+
+    return got
+      .get(url, {
+        username,
+        password,
+      })
+      .json<Version[]>();
+  }
+
+  async function createVersion(
+    projectId: string,
+    name: string,
+    released: boolean
+  ) {
+    const url = new URL("/rest/api/2/version", jiraHostname).toString();
+
+    return got
+      .post(url, {
+        username,
+        password,
+        json: {
+          name,
+          project: projectId,
+          released,
+        },
+      })
+      .json<Version>();
+  }
+
+  function findVersionByName(versions: Version[], name: string) {
+    return versions.find((v) => v.name === name);
+  }
 }
 
 main();

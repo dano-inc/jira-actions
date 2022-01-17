@@ -1,22 +1,6 @@
 import * as core from "@actions/core";
 import got from "got";
 
-let jiraHostname: string;
-let username: string;
-let password: string;
-
-const updateIssueFixVersions = async (issueId: string, versionId: number) => {
-  const url = new URL(`/rest/api/2/issue/${issueId}`, jiraHostname).toString();
-
-  return got.put(url, {
-    username,
-    password,
-    json: {
-      update: { fixVersions: [{ set: [{ id: versionId }] }] },
-    },
-  });
-};
-
 interface VersionResult {
   project: string;
   version: {
@@ -26,9 +10,9 @@ interface VersionResult {
 }
 
 async function main() {
-  jiraHostname = core.getInput("jira-hostname");
-  username = core.getInput("jira-username");
-  password = core.getInput("jira-password");
+  const jiraHostname = core.getInput("jira-hostname");
+  const username = core.getInput("jira-username");
+  const password = core.getInput("jira-password");
 
   const tickets = core.getInput("tickets").split(",");
   const versionResult = JSON.parse(
@@ -46,6 +30,21 @@ async function main() {
       );
     })
   );
+
+  async function updateIssueFixVersions(issueId: string, versionId: number) {
+    const url = new URL(
+      `/rest/api/2/issue/${issueId}`,
+      jiraHostname
+    ).toString();
+
+    return got.put(url, {
+      username,
+      password,
+      json: {
+        update: { fixVersions: [{ set: [{ id: versionId }] }] },
+      },
+    });
+  }
 }
 
 main();
