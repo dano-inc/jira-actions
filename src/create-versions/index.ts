@@ -14,16 +14,31 @@ interface Version {
 }
 
 const getProjectVersions = async (projectId: string) => {
+console.log({
+  tjiraHostname: typeof jiraHostname,
+  tpassword: typeof password,
+  tusername : typeof username,
+})
+console.log(JSON.stringify({ jiraHostname, username, password }));
+
   const url = new URL(
     `/rest/api/2/project/${projectId}/versions`,
     jiraHostname
   ).toString();
-  console.log({ url });
 
-  return await got.get(url, { username, password }).json<Version[]>();
+  return got
+    .get(url, {
+      username,
+      password,
+    })
+    .json<Version[]>();
 };
 
-const createVersion = async (projectId: string, name: string, released: boolean) => {
+const createVersion = async (
+  projectId: string,
+  name: string,
+  released: boolean
+) => {
   const url = new URL("/rest/api/2/version", jiraHostname).toString();
 
   return got
@@ -61,7 +76,11 @@ async function main() {
       const versions = await getProjectVersions(project);
       const version =
         findVersionByName(versions, versionName) ||
-        (await createVersion(project, versionName, core.getBooleanInput('version-released')));
+        (await createVersion(
+          project,
+          versionName,
+          core.getBooleanInput("version-released")
+        ));
 
       return { project, version };
     })
