@@ -32,6 +32,9 @@ async function main() {
 
   core.setOutput("tickets", tickets.join(","));
   core.setOutput("projects", projects.join(","));
+
+  console.log(tickets);
+  console.log(projects);
 }
 
 main();
