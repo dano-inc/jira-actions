@@ -7,7 +7,9 @@ const ticketRegExp = /([A-Z0-9]+-(?!0)\d+)/g;
 
 async function main() {
   const previous = core.getInput('previous-tag');
+  console.log(previous);
   const last = core.getInput('last-tag');
+  console.log(last);
   const commits = await $`git log --format="%s %b" ${previous}..${last}`.pipe(
     $`grep -v '^Merge'`
   );
