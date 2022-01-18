@@ -22,7 +22,7 @@ async function main() {
             username, 
             password,
             json: {
-                transaction: { id: actionId }
+                transition: { id: actionId }
             }
         });
     }
