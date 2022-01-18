@@ -1,7 +1,7 @@
 import * as core from "@actions/core";
 import { $ } from "zx";
 
-$.verbose = false;
+$.verbose = true;
 
 const ticketRegExp = /([A-Z0-9]+-(?!0)\d+)/g;
 
