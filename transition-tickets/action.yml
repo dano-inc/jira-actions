@@ -1,0 +1,8 @@
+inputs: 
+  ticket-id:
+    required: true
+  action-id: 
+    required: true
+runs:
+  using: 'node16'
+  main: 'index.js'
