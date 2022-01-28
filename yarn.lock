@@ -273,6 +273,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"dprint@npm:^0.21.2":
+  version: 0.21.2
+  resolution: "dprint@npm:0.21.2"
+  bin:
+    dprint: bin.js
+  checksum: a330f4b97f5ccad81281410f117e222cbf2cd58ee7057e17cd7b06edb8832cb053743593c989eb086005b7af603befd51c15e284fa02eab4c7c6b8e086e18f50
+  languageName: node
+  linkType: hard
+
 "duplexer@npm:~0.1.1":
   version: 0.1.2
   resolution: "duplexer@npm:0.1.2"
@@ -695,6 +704,7 @@ __metadata:
   dependencies:
     "@actions/core": ^1.6.0
     dayjs: ^1.10.7
+    dprint: ^0.21.2
     esbuild: ^0.14.2
     got: ^12.0.1
     husky: ^7.0.4
