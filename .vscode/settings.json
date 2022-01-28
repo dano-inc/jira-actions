@@ -1,0 +1,15 @@
+{
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "dprint.path": "node_modules/.bin/dprint",
+  "dprint.verbose": true,
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "dprint.dprint",
+
+  "[typescript]": {
+    "editor.defaultFormatter": "dprint.dprint"
+  },
+
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "dprint.dprint"
+  }
+}
