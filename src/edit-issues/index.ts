@@ -37,10 +37,7 @@ async function main() {
       username,
       password,
       json: {
-        update: {
-          fixVersions: [{ set: [{ id: versionId }] }],
-          resolution: [{ set: [{ id: 10000 }] }],
-        },
+        update: { fixVersions: [{ set: [{ id: versionId }] }] },
       },
     });
   }
