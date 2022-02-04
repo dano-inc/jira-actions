@@ -1,4 +1,10 @@
 inputs: 
+  jira-hostname:
+    required: true
+  jira-username:
+    required: true
+  jira-password:
+    required: true
   from-revision:
     required: false
     default: HEAD~1

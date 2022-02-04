@@ -1,4 +1,10 @@
-inputs: 
+inputs:
+  jira-hostname:
+    required: true
+  jira-username:
+    required: true
+  jira-password:
+    required: true 
   ticket-id:
     required: true
   action-id: 
