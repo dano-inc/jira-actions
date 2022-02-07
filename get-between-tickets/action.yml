@@ -1,8 +1,0 @@
-inputs: 
-  previous-tag:
-    required: true
-  latest-tag:
-    required: true
-runs:
-  using: 'node16'
-  main: 'index.js'
