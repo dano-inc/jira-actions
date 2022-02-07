@@ -1,16 +1,14 @@
-inputs: 
+inputs:
   jira-hostname:
     required: true
   jira-username:
     required: true
   jira-password:
+    required: true 
+  ticket-id:
     required: true
-  from-revision:
-    required: false
-    default: HEAD~1
-  to-revision:
-    required: false 
-    default: HEAD 
+  action-id: 
+    required: true
 runs:
   using: 'node16'
   main: 'index.js'

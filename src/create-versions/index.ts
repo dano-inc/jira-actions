@@ -1,8 +1,8 @@
-import * as core from "@actions/core";
-import got, { HTTPError } from "got";
-import dayjs from "dayjs";
+import * as core from '@actions/core';
+import dayjs from 'dayjs';
+import got, { HTTPError } from 'got';
 
-process.env.TZ = "Asia/Seoul";
+process.env.TZ = 'Asia/Seoul';
 
 interface Version {
   id: string;
@@ -10,40 +10,38 @@ interface Version {
 }
 
 async function main() {
-  const jiraHostname = core.getInput("jira-hostname");
-  const username = core.getInput("jira-username");
-  const password = core.getInput("jira-password");
+  const jiraHostname = core.getInput('jira-hostname');
+  const username = core.getInput('jira-username');
+  const password = core.getInput('jira-password');
 
-  const projectsAsString = core.getInput("projects");
-  const versionSuffix = core.getInput("suffix");
+  const projectsAsString = core.getInput('projects');
+  const versionSuffix = core.getInput('suffix');
 
-  const now = dayjs().format("YYYY.MM.DD");
-  const versionName =
-    core.getInput("version-name") ||
-    (versionSuffix ? `v${now} - ${versionSuffix}` : `v${now}`);
+  const now = dayjs().format('YYYY.MM.DD');
+  const versionName = core.getInput('version-name')
+    || (versionSuffix ? `v${now} - ${versionSuffix}` : `v${now}`);
 
   const result = await Promise.all(
-    projectsAsString.split(",").map(async (project) => {
+    projectsAsString.split(',').map(async (project) => {
       console.log({ project });
       const versions = await getProjectVersions(project);
-      const version =
-        findVersionByName(versions, versionName) ||
-        (await createVersion(
+      const version = findVersionByName(versions, versionName)
+        || (await createVersion(
           project,
           versionName,
-          core.getBooleanInput("version-released")
+          core.getBooleanInput('version-released'),
         ));
 
       return { project, version };
-    })
+    }),
   );
 
-  core.setOutput("result", result);
+  core.setOutput('result', result);
 
   async function getProjectVersions(projectId: string) {
     const url = new URL(
       `/rest/api/2/project/${projectId}/versions`,
-      jiraHostname
+      jiraHostname,
     ).toString();
 
     return got
@@ -57,9 +55,9 @@ async function main() {
   async function createVersion(
     projectId: string,
     name: string,
-    released: boolean
+    released: boolean,
   ) {
-    const url = new URL("/rest/api/2/version", jiraHostname).toString();
+    const url = new URL('/rest/api/2/version', jiraHostname).toString();
 
     return got
       .post(url, {

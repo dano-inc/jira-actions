@@ -1,5 +1,5 @@
-import * as core from "@actions/core";
-import got, { HTTPError } from "got";
+import * as core from '@actions/core';
+import got, { HTTPError } from 'got';
 
 interface VersionResult {
   project: string;
@@ -10,31 +10,27 @@ interface VersionResult {
 }
 
 async function main() {
-  const jiraHostname = core.getInput("jira-hostname");
-  const username = core.getInput("jira-username");
-  const password = core.getInput("jira-password");
+  const jiraHostname = core.getInput('jira-hostname');
+  const username = core.getInput('jira-username');
+  const password = core.getInput('jira-password');
 
-  const tickets = core.getInput("tickets").split(",");
+  const tickets = core.getInput('tickets').split(',');
   const versionResult = JSON.parse(
-    core.getInput("version-result")
+    core.getInput('version-result'),
   ) as VersionResult[];
 
   await Promise.allSettled(
     versionResult.flatMap(({ project, version }) => {
-      const affectedTickets = tickets.filter((t) =>
-        t.match(new RegExp(`^${project}-`))
-      );
+      const affectedTickets = tickets.filter((t) => t.match(new RegExp(`^${project}-`)));
 
-      return affectedTickets.map((ticket) =>
-        updateIssueFixVersions(ticket, version.id)
-      );
-    })
+      return affectedTickets.map((ticket) => updateIssueFixVersions(ticket, version.id));
+    }),
   );
 
   async function updateIssueFixVersions(issueId: string, versionId: number) {
     const url = new URL(
       `/rest/api/2/issue/${issueId}`,
-      jiraHostname
+      jiraHostname,
     ).toString();
 
     return got.put(url, {
