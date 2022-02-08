@@ -8,6 +8,9 @@ inputs:
   from-revision:
     required: false
     default: HEAD~1
+  to-revision:
+    required: false 
+    default: HEAD 
 runs:
   using: 'node16'
   main: 'index.js'
